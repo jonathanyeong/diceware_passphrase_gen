@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>My first Vue app</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app">
+    <p>{{ numWords }}</p>
+    <label for="numWords">
+      Number of Words:
+    </label>
+    <input v-model="numWords" id="numWords">
+
+    <h1>Random Number</h1>
+    <p>{{ randNum }}</p>
+    <button v-on:click="genNumber">Roll 5 Dice</button>
+  </div>
+
+
+
+  <script>
+    const App = {
+        data() {
+          return {
+            counter: 0
+          }
+        }
+      }
+    Vue.createApp(App).mount('#app')
+  </script>
+</body>
+
+</html>

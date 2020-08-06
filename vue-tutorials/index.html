@@ -17,8 +17,9 @@
     <h1>Random Number</h1>
     <p>{{ randNum }}</p>
     <button v-on:click="genNumber">Roll 5 Dice</button>
-  </div>
 
+    {{dicewarePassphrases}}
+  </div>
 
 
   <script>
@@ -26,6 +27,11 @@
         data() {
           return {
             counter: 0
+          }
+        },
+        computed: {
+          dicewarePassphrases() {
+            return "csv to json"
           }
         }
       }

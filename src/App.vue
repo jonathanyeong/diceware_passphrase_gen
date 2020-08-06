@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Generate your Passphrase!</h1>
+    <PassphraseForm />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import PassphraseForm from './components/PassphraseForm.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    PassphraseForm
   }
 }
 </script>

@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <h1>Generate your Passphrase!</h1>
-    <h2>
-      {{passphrase}}
-    </h2>
     <PassphraseForm />
   </div>
 </template>
@@ -18,7 +15,6 @@ export default {
   },
   data() {
     return {
-      passphrase: "Hello World", // Replace this with the randomized numbers
       dicewarePassphrases: [
         { id: 11111, val: 'abacus' },
         { id: 32643, val: 'grief' },

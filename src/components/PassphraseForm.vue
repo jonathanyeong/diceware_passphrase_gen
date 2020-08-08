@@ -1,21 +1,19 @@
 <template>
 <div class="container">
-  <p>
-    Generating diceware key: {{ key }}
-  </p>
-  <form class="passphrase-form">
+  <h2>
+    {{passphrase}}
+  </h2>
+
+  <form @submit.prevent="onSubmit" class="passphrase-form">
     <div class="form-fields">
-      <div class="field">
+      <!-- <div class="field">
         <label for="delimiter">Delimiter between words:</label>
         <input type="text" id="delimiter" name="delimiter" maxlength="1">
-      </div>
+      </div> -->
       <div class="field">
         <label for="numWords">Number of words:</label>
-        <input type="number" id="numWords" name="numWords">
+        <input v-model.number="wordCount" @change="newPassphrase(wordCount)" type="number" id="numWords" name="numWords" />
       </div>
-    </div>
-    <div class="form-submit">
-      <input type="submit" value="Generate!">
     </div>
   </form>
 </div>
@@ -35,12 +33,27 @@ function genDicewareKey() {
          getRndInteger(1, 6) * 10000;
 }
 
+function genPassphrase(num, delimiter) {
+  let newPassphrase = []
+  for(let i = 0; i < num; i++) {
+    newPassphrase.push(genDicewareKey())
+  }
+  return newPassphrase.join(delimiter);
+}
+
 export default {
   name: 'PassphraseForm',
   data() {
     return {
-      key: genDicewareKey()
+      passphrase: genPassphrase(3, " "),
+      wordCount: 3
     }
+  },
+  methods: {
+    newPassphrase(wordCount) {
+      this.passphrase = genPassphrase(wordCount, " ")
+    },
+
   }
 }
 </script>

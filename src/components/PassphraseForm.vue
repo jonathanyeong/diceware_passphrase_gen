@@ -6,10 +6,10 @@
 
   <form @submit.prevent="onSubmit" class="passphrase-form">
     <div class="form-fields">
-      <!-- <div class="field">
+      <div class="field">
         <label for="delimiter">Delimiter between words:</label>
-        <input type="text" id="delimiter" name="delimiter" maxlength="1">
-      </div> -->
+        <input v-model="delimiter" @change="updateWithDelimiter(delimiter)" type="text" id="delimiter" name="delimiter" maxlength="1">
+      </div>
       <div class="field">
         <label for="numWords">Number of words:</label>
         <input v-model.number="wordCount" @change="newPassphrase(wordCount)" type="number" id="numWords" name="numWords" />
@@ -46,14 +46,17 @@ export default {
   data() {
     return {
       passphrase: genPassphrase(3, " "),
+      delimiter: " ",
       wordCount: 3
     }
   },
   methods: {
     newPassphrase(wordCount) {
-      this.passphrase = genPassphrase(wordCount, " ")
+      this.passphrase = genPassphrase(wordCount, this.delimiter)
     },
-
+    updateWithDelimiter(delimiter) {
+      this.passphrase = this.passphrase.split(" ").join(delimiter)
+    }
   }
 }
 </script>

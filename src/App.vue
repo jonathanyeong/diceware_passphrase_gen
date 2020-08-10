@@ -12,15 +12,6 @@ export default {
   name: 'App',
   components: {
     PassphraseForm
-  },
-  data() {
-    return {
-      dicewarePassphrases: [
-        { id: 11111, val: 'abacus' },
-        { id: 32643, val: 'grief' },
-        { id: 53643, val: 'shallot' }
-      ]
-    }
   }
 }
 </script>

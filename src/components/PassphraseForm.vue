@@ -8,7 +8,7 @@
     <div class="form-fields">
       <div class="field">
         <label for="delimiter">Delimiter between words:</label>
-        <input v-model="delimiter" @change="updateWithDelimiter(delimiter)" type="text" id="delimiter" name="delimiter" maxlength="1">
+        <input v-model="delimiter" @keypress="onlySymbols" type="text" id="delimiter" name="delimiter" maxlength="1">
       </div>
       <div class="field">
         <label for="numWords">Number of words:</label>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
@@ -41,21 +40,59 @@ function genPassphrase(num, delimiter) {
   return newPassphrase.join(delimiter);
 }
 
+// function readTextFile(file)
+// {
+//     var rawFile = new XMLHttpRequest();
+//     rawFile.open("GET", file, true);
+//     rawFile.onreadystatechange = function ()
+//     {
+//         if(rawFile.readyState === 4)
+//         {
+//             if(rawFile.status === 200 || rawFile.status == 0)
+//             {
+//                 var allText = rawFile.responseText;
+//                 alert(allText);
+//             }
+//         }
+//     }
+//     rawFile.send(null);
+// }
+
+function popDicewareData() {
+  // const data = readTextFile('./assets/wordlist.csv')
+  // console.log("PopDiceware data:", data)
+}
+
 export default {
   name: 'PassphraseForm',
   data() {
     return {
       passphrase: genPassphrase(3, " "),
-      delimiter: " ",
-      wordCount: 3
+      delimiter: "",
+      wordCount: 3,
+      dicewareData: popDicewareData()
     }
   },
   methods: {
     newPassphrase(wordCount) {
       this.passphrase = genPassphrase(wordCount, this.delimiter)
     },
-    updateWithDelimiter(delimiter) {
-      this.passphrase = this.passphrase.split(" ").join(delimiter)
+    onlySymbols(event) {
+      console.log("Only symbols", event)
+      // if (event.charCode < 186 && event.charCode !== 32 || event.charCode > 222) {
+      //   event.preventDefault();
+      // }
+    }
+  },
+  watch: {
+    delimiter(newDelimiter, oldDelimiter) {
+      if (oldDelimiter) {
+        this.passphrase = this.passphrase.split(oldDelimiter).join(newDelimiter || " ")
+      }
+      else {
+        // Default to spaces
+        this.passphrase = this.passphrase.split(" ").join(newDelimiter || " ")
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
 <div class="container">
   <h2>
-    {{passphrase}}
+    {{computedPassphrase}}
   </h2>
 
   <form @submit.prevent="onSubmit" class="passphrase-form">
@@ -24,6 +24,15 @@ function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
+// function getDicewareMapping(key, dicewareData) {
+//   const mapping = dicewareData.find((element) => {
+//     console.log("element is", element)
+//     element.key === key
+//   })
+//   console.log("Get Diceware Mapping", mapping)
+//   return mapping.value;
+// }
+
 function genDicewareKey() {
   return getRndInteger(1, 6) +
          getRndInteger(1, 6) * 10 +
@@ -32,7 +41,8 @@ function genDicewareKey() {
          getRndInteger(1, 6) * 10000;
 }
 
-function genPassphrase(num, delimiter) {
+function genPassphrase(num, delimiter, dicewareData) {
+  console.log("==> Diceware data", dicewareData)
   let newPassphrase = []
   for(let i = 0; i < num; i++) {
     newPassphrase.push(genDicewareKey())
@@ -40,42 +50,30 @@ function genPassphrase(num, delimiter) {
   return newPassphrase.join(delimiter);
 }
 
-// function readTextFile(file)
-// {
-//     var rawFile = new XMLHttpRequest();
-//     rawFile.open("GET", file, true);
-//     rawFile.onreadystatechange = function ()
-//     {
-//         if(rawFile.readyState === 4)
-//         {
-//             if(rawFile.status === 200 || rawFile.status == 0)
-//             {
-//                 var allText = rawFile.responseText;
-//                 alert(allText);
-//             }
-//         }
-//     }
-//     rawFile.send(null);
-// }
-
-function popDicewareData() {
-  // const data = readTextFile('./assets/wordlist.csv')
-  // console.log("PopDiceware data:", data)
+function populateData() {
+  const dicewareData = require('../assets/wordlist.csv')
+  console.log('===> Popualte data:', dicewareData)
+  return dicewareData
 }
 
 export default {
   name: 'PassphraseForm',
   data() {
     return {
-      passphrase: genPassphrase(3, " "),
+      passphrase: "",
       delimiter: "",
       wordCount: 3,
-      dicewareData: popDicewareData()
+      dicewareData: populateData()
+    }
+  },
+  computed: {
+    computedPassphrase() {
+      return genPassphrase(3, " ", this.dicewareData)
     }
   },
   methods: {
     newPassphrase(wordCount) {
-      this.passphrase = genPassphrase(wordCount, this.delimiter)
+      this.passphrase = genPassphrase(wordCount, this.delimiter, this.dicewareData)
     },
     onlySymbols(event) {
       console.log("Only symbols", event)
